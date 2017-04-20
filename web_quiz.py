@@ -2,25 +2,25 @@ header = '\n' + '-'*30 + '\n'
 game_levels = ['1 - Easy', '2 - Medium', '3 - Hard']
 
 #####################################################################
-#Questions and answers
-#Easy
+# Questions and answers
+# Easy
 question1 = 'In order to access a web page your computer needs to run a web __1__. The __1__ will make requests to __2__s using the __3__. This requests use a protocol called HTTP, or __4__ Transfer Protocol. The __2__s responds with files that the __1__ displays.'
 blanks1 = ['__1__', '__2__', '__3__', '__4__']
 answers1 = ['browser', 'server', 'Internet', 'HyperText']
 #######################
-#Medium
+# Medium
 question2 = 'HTML (__1__ Language) is the standard language for creating web pages. It describes the structure of the page, while the CSS (__2__ Sheets) sets its visual style. HTML and CSS, together with the programming language __3__, are the three core technologies for building web pages, and are well known, if not mastered, by any good __4__ Web Developer.'
 blanks2 = ['__1__', '__2__', '__3__', '__4__']
 answers2 = ['HyperText Markup', 'Cascading Style', 'JavaScript', 'Front-End']
 #######################
-#Hard
+# Hard
 question3 = '__1__s are responsible for making server, application and __2__ communicate with each other. For that, they use __3__ languages, like Python, Ruby and Java and may use __4__s like Django and Ruby on Rails to make the development faster and easier. __1__s also need know their way with __2__ tools like MySQL and Oracle and its __4__s.'
 blanks3 = ['__1__', '__2__', '__3__', '__4__']
 answers3 = ['Back-End Developer', 'database', 'server-side', 'framework']
 #####################################################################
 
 def name_asker():
-    #Asks the player's name and makes it global
+    # Asks the player's name and makes it global
     print "\nBefore we start, what's your name?\n"
     global name
     name = raw_input()
@@ -29,7 +29,7 @@ def name_asker():
         name = 'Mysterious Player'
 
 def game_intro():
-    #Presents the game intro and tells user to choose a level
+    # Presents the game intro and tells user to choose a level
     print header
     print 'So ' + name + ', what level would you like to play?\n'
     for level in game_levels:
@@ -48,7 +48,7 @@ def game_intro():
         game_intro()
 
 def choose_tries():
-    #Asks user to choose number of tries between 0 and 10
+    # Asks user to choose number of tries between 0 and 10
     tries = ''
     number_range = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     while tries not in number_range:
@@ -58,7 +58,7 @@ def choose_tries():
     return int(tries)
 
 def play_again():
-    #Asks if the player wants to play again or not
+    # Asks if the player wants to play again or not
     positive = ['yes', 'y', 'ok', 'yup']
     negative = ['no', 'n', 'nah', 'nope']
     answer = ''
@@ -74,8 +74,8 @@ def play_again():
             break
 
 def word_replacer(word, blank, answer):
-    #Checks if a word contains the answer and replaces the blank with it, including other characters like dots, commas, parentheses and plurals.
-    #Based on Mad Libs Generator, by Sean @ Udacity
+    # Checks if a word contains the answer and replaces the blank with it, including other characters like dots, commas, parentheses and plurals.
+    # Based on Mad Libs Generator, by Sean @ Udacity
     replaced = []
     for letter in word:
         if letter not in blank:
@@ -86,7 +86,7 @@ def word_replacer(word, blank, answer):
     return replaced
 
 def cut_join(question, blank, answer):
-    #Splits a string into a list, calls the word_replacer() and joins it again into a string
+    # Splits a string into a list, calls the word_replacer() and joins it again into a string
     answered = []
     question = question.split()
     for word in question:
@@ -97,13 +97,14 @@ def cut_join(question, blank, answer):
     return answered
 
 def answer_checker(question, blank, answer, tries):
-    #Checks the answer and runs the next if correct or stops if out of tries
-    while tries > 0:
+    # Checks the answer and runs the next if correct or stops if out of tries
+    outof_tries = 0
+    while tries > outof_tries:
         print header
         print question
         print '\nTries left: ' + str(tries)
         print "What's the answer for " + blank + '?'
-        guess = raw_input('\n').lower()
+        guess = raw_input('\n')
         if guess.lower() == answer.lower():
             print "\nThat's right, " + name + "!"
             question = cut_join(question, blank, answer)
@@ -114,12 +115,13 @@ def answer_checker(question, blank, answer, tries):
     return question, tries
 
 def play_game(question, blanks, answers, global_tries):
-    #Plays each level
+    # Plays each level
     index = 0
+    outof_tries = 0
     print "\nAlright, so let's do this!"
     for each in blanks:
         question, tries = answer_checker(question, blanks[index], answers[index], global_tries)
-        if tries == 0:
+        if tries == outof_tries:
             print '\nYou lose! Better luck next time, ' + name + '.'
             return
         index += 1
